@@ -59,11 +59,18 @@ function buildCharts(sample) {
   d3.json("samples.json").then((data) => {
     // 3. Create a variable that holds the samples array. 
     var samples = data.samples
+    var meta = data.metadata;
+  
     // 4. Create a variable that filters the samples for the object with the desired sample number.
     var samplesArray = samples.filter(sampleObj => sampleObj.id == sample);
+    var metaArray = meta.filter(sampleObj => sampleObj.id == sample);
+    
     //  5. Create a variable that holds the first sample in the array.
     var samp = samplesArray[0]
+    var meta1 = metaArray[0]
+    console.log(metaArray);
 
+    var wfreq = parseFloat(meta1.wfreq);
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
     let ids = samp.otu_ids ;
     let labels = samp.otu_labels.slice(0,10);
@@ -136,22 +143,15 @@ function buildCharts(sample) {
    var gaugeData = [
     {
       domain: { x: [0, 1], y: [0, 1] },
-      value: 270,
+      value: wfreq,
       title: { text: "Belly Button" },
       type: "indicator",
       mode: "gauge+number"
     }
   ];
   
-  var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+  var layout = { width:500, height: 500, margin: { t: 0, b: 0 } };
   Plotly.newPlot('gauge', gaugeData, layout);
-  
-  // 5. Create the layout for the gauge chart.
-  //var gaugeLayout = { 
-   
-  //};
-
-  // 6. Use Plotly to plot the gauge data and layout.
   
   });
 }
